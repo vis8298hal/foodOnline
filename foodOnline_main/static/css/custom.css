@@ -1,16 +1,13 @@
 @keyframes show-toast {
-        0%{opacity: 0;left: 300px; }
+        0%{opacity: 0;left: 600px; }
         20%{opacity: 0.2;}
         80%{opacity: 0.8;}
         100%{opacity: 1.0;left: 0;}
     }
 .show_notification{
     position: absolute;
-    bottom: 100%;
     left: 0;
     opacity: 1;
-    animation-duration: 2s;
-    animation-name: show-toast;
-    z-index: 100;
+    
     
 }
