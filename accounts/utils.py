@@ -16,17 +16,12 @@ def detect_user(user):
         redirect_url = "/admin"
     return redirect_url
 
-def send_accounts_email(request, user, template, subject):
+def send_accounts_email( user, template, subject, context):
     from_email = settings.DEFAULT_FROM_EMAIL
-    current_site = get_current_site(request)
     mail_subject = subject
-    message = render_to_string(template, {
-        'user': user,
-        'token': default_token_generator.make_token(user),
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'domain': current_site,
-    })
+    message = render_to_string(template, context)
     to_email = user.email
     mail = EmailMessage(subject=mail_subject, body=message,from_email=from_email, to=[to_email])
     mail.content_subtype = 'html'
     mail.send()
+
