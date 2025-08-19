@@ -6,5 +6,12 @@
   </button>
   {{message}}
 </div>
+<script>
+  function close_alert(){
+    alert_el = document.querySelector('.close');
+    alert_el.click();
+  }
+  const timeoutID = setTimeout(close_alert, 2000);
+</script>
   {% endfor %} {% endif %}
 

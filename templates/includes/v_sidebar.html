@@ -1,0 +1,62 @@
+<div class="user-account-nav user-account-sidebar">
+  <div class="user-nav-list">
+    <ul>
+      <li id="dashboard">
+        <a href="{% url 'vendorDashboard' %}"
+          ><i class="icon-dashboard3" ></i>Dashboard</a
+        >
+      </li>
+      <li id="profile">
+        <a href="{% url 'vprofile' %}"
+          ><i class="icon-building" ></i>My Restaurant</a
+        >
+      </li>
+      <li id="menu_builder">
+        <a href="restaurant-menu-builder.html"
+          ><i class="icon-menu5" ></i>Menu Builder</a
+        >
+      </li>
+      <li id="shopping_cart">
+        <a href="restaurant-orders.html"
+          ><i class="icon-add_shopping_cart" ></i>Orders</a
+        >
+      </li>
+      <li id="earnings">
+        <a href="restaurant-earnings.html"
+          ><i class="icon-money"></i>Earnings</a
+        >
+      </li>
+      <li id="statement">
+        <a href="restaurant-statement.html"
+          ><i class="icon-file-text22"></i>Statement</a
+        >
+      </li>
+      <li id="reset_password">
+        <a href="restaurant-change-password.html"
+          ><i class="icon-unlock-alt"></i>Change Password</a
+        >
+      </li>
+      <li id="logout"> 
+        <a class="logout-btn" href="registration.html"
+          ><i class="icon-log-out"></i>Signout</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+<script>
+  list_objects = [{
+    "id": "dashboard",
+    "path": "/accounts/vendorDashboard/"
+  },
+  {"id": "profile",
+  "path": "/accounts/vendor/profile"},
+  ]
+  current_path = "{{request.path}}";
+  list_objects.forEach((list_obj)=>{
+    if(list_obj.path == current_path){
+      active_element = document.getElementById(list_obj.id);
+      active_element.classList.add("active");
+    }
+  });
+</script>
