@@ -7,7 +7,10 @@
 .show_notification{
     position: absolute;
     left: 0;
-    opacity: 1;
-    
-    
+    opacity: 1;  
+}
+input.btn.btn-info {
+    padding: 2px 1.75em;
+    font-size: 12px;
+    cursor: pointer;
 }

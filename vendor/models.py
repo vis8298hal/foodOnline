@@ -9,7 +9,7 @@ class Vendor(models.Model):
     user = models.OneToOneField(User, related_name="user", on_delete=models.CASCADE)
     user_profile = models.OneToOneField(UserProfile, related_name="user_profile", on_delete=models.CASCADE)
     vendor_name = models.CharField(max_length=150)
-    vendor_license = models.ImageField(upload_to='vendor/license',)
+    vendor_license = models.FileField(upload_to='vendor/license',)
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
