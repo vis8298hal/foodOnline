@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 #Vendor Context Processor
                 'accounts.context_processors.get_vendor',
+                'accounts.context_processors.get_google_api',
             ],
         },
     },
@@ -148,3 +149,6 @@ EMAIL_HOST_USER=config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL="foodOnline Marketplace"
+
+#API KEYS
+GOOGLE_API_KEY = config("GOOGLE_API_KEY")
