@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- Main Section Start -->
+{% include 'includes/alerts.html' %}
+<div class="main-section">
+  {% comment %} Cover Photo & Brand Info {% endcomment %} 
+   
+  {% include 'includes/cover.html' %}
+  <div class="page-section account-header buyer-logged-in">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <!-- Vendor Sidebar Load here -->
+          {% include 'includes/v_sidebar.html' %}
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <div class="user-dashboard loader-holder">
+            <div class="user-holder">
+              <h5 class="text-uppercase">Update Category</h5><hr>
+              <h6>Category <span class="text-success">{{category}} </span></h6><br>
+              <form action="{% url 'edit_category' category.pk %}" method="POST">
+                {% csrf_token %}
+              <div class="fom-field-set">
+                <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12">
+                    <label>Category Name *</label>
+                    {{category_form.category_name}}
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12">
+                    <label>Description</label>
+                    {{category_form.description}}
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary"><i class="fa fa-solid fa-check"></i> Save</button>
+            </form>
+            {% for field in category_form %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <label class="text-danger">{{error}}</label>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% comment %} </div> {% endcomment %}
+  <!-- Main Section End -->
+
+  {% endblock %}
+</div>

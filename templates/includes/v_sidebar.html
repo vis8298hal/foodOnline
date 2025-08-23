@@ -12,7 +12,7 @@
         >
       </li>
       <li id="menu_builder">
-        <a href="restaurant-menu-builder.html"
+        <a href="{% url 'menu-builder' %}"
           ><i class="icon-menu5" ></i>Menu Builder</a
         >
       </li>
@@ -51,10 +51,16 @@
   },
   {"id": "profile",
   "path": "/accounts/vendor/profile"},
+  {"id": "menu_builder",
+  "path": "/accounts/vendor/menu-builder/"},
   ]
   current_path = "{{request.path}}";
   list_objects.forEach((list_obj)=>{
     if(list_obj.path == current_path){
+      active_element = document.getElementById(list_obj.id);
+      active_element.classList.add("active");
+    }
+    else if(current_path.indexOf(list_obj.path) != -1){
       active_element = document.getElementById(list_obj.id);
       active_element.classList.add("active");
     }
