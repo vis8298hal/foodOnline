@@ -25,7 +25,7 @@ class FoodItem(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     food_title = models.CharField(max_length=150)
-    item_slug = models.SlugField(max_length=100,unique=True)
+    item_slug = models.SlugField(max_length=100,unique=False)
     price = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     image = models.ImageField(upload_to="foodItems")
     is_available = models.BooleanField(default=True)
@@ -34,6 +34,8 @@ class FoodItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     is_veg = models.BooleanField(default=False)
+    class Meta:
+        models.UniqueConstraint(fields=['vendor', 'category', "item_slug"], name='unique_item_category')
 
     def __str__(self):
         return self.food_title

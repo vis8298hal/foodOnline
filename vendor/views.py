@@ -7,7 +7,7 @@ from accounts.models import UserProfile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from foodmenu.models import Category, FoodItem
-from foodmenu.forms import CategoryForm
+from foodmenu.forms import CategoryForm, FoodItemForm
 from django.template.defaultfilters import slugify
 
 # Helper Function
@@ -129,3 +129,75 @@ def delete_category(request, pk=None):
     else:
         messages.error("Invalid Category : This Category can't be deleted please contact support team")
     return redirect("menu-builder")
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def add_fooditem(request):
+    vendor = get_vendor(request)
+    if request.method == "POST":
+        fooditem_form = FoodItemForm(request.POST, request.FILES)
+        if fooditem_form.is_valid():
+            food_title = fooditem_form.cleaned_data["food_title"]
+            food = fooditem_form.save(commit=False)
+            food.vendor = vendor
+            food.slug = slugify(food_title)
+            if food.on_hand_quantity > 0:
+                food.is_available =True
+            else:
+                food.is_available = False
+            
+            fooditem_form.save()
+            messages.success(request, "Food Item Saved successfully")
+            return redirect('food_item_by_category', food.category.pk)
+    else:
+        fooditem_form = FoodItemForm()
+        fooditem_form.fields["category"].queryset = Category.objects.filter(vendor=get_vendor(request))
+        messages.success(request, "Categories")
+    context = {
+        "fooditem": fooditem_form,
+
+    }
+    return render(request, "vendor/add_fooditem.html", context=context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def edit_fooditem(request, pk):
+    food = get_object_or_404(FoodItem,pk=pk)
+    print(food)
+    if request.method == "POST":
+        form = FoodItemForm(request.POST, request.FILES, instance=food)
+        if form.is_valid():
+            food_title = form.cleaned_data["food_title"]
+            food = form.save(commit=False)
+            food.vendor = get_vendor(request)
+            food.slug = slugify(food_title)
+            if food.on_hand_quantity > 0:
+                food.is_available =True
+            else:
+                food.is_available = False
+            form.save()
+            messages.success(request, f"The Food Item : {food_title} has been modified successfully")
+            return redirect('food_item_by_category', food.category.pk)
+    else:
+        form = FoodItemForm(instance=food)
+        form.fields["category"].queryset = Category.objects.filter(vendor=get_vendor(request))
+    context = {
+        "fooditem": form,
+        "food": food,
+
+    }
+
+    return render(request, "vendor/edit_fooditem.html", context=context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def delete_fooditem(request, pk):
+    if pk is not None:
+        fooditem = get_object_or_404(FoodItem, pk=pk)
+        fooditem.delete()
+        messages.success(request, f"FoodItem: {fooditem.food_title} is deleted Successfully")
+        return redirect('food_item_by_category', fooditem.category.pk)
+        
+    else:
+        messages.error("Invalid FoodItem : This FoodItem can't be deleted please contact support team")
+        return redirect("menu-builder")

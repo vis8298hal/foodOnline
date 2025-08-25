@@ -1,0 +1,32 @@
+
+    .toggle-container{
+    background-color: rgb(64 19 105 / 50%);
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    }
+    .toggle_ball_item{
+        height: 20px;
+        width: 20px;
+        left: 0%;
+        border-radius: 50%;
+        position: absolute;
+        
+    }
+    .toggle_ball_item.veg{
+        background-color: green;
+        left: 50px;
+        position: absolute;
+        traansition: left 0.3s ease, background-color 0.3s ease;
+
+    }
+    .toggle_ball_item.non_veg{
+        background-color: red;
+        left: 0;
+        position: absolute;
+        traansition: right 0.3s ease, background-color 0.3s ease;
+
+    }
+   

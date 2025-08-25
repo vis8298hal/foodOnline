@@ -15,7 +15,8 @@
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
           <div class="user-dashboard loader-holder">
             <div class="user-holder">
-              <h5 class="text-uppercase">Update Category</h5><hr>
+              <h5 class="text-uppercase">Update Category</h5>
+              <a class="btn btn-secondary" onclick="history.back()"><span class="text-light"><i class="fa fa-solid fa-arrow-left"></i> Back</span></a><hr>
               <h6>Category <span class="text-success">{{category}} </span></h6><br>
               <form action="{% url 'edit_category' category.pk %}" method="POST">
                 {% csrf_token %}

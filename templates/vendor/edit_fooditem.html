@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- Main Section Start -->
+{% include 'includes/alerts.html' %}
+<div class="main-section">
+  {% comment %} Cover Photo & Brand Info {% endcomment %} 
+   
+  {% include 'includes/cover.html' %}
+  <div class="page-section account-header buyer-logged-in">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <!-- Vendor Sidebar Load here -->
+          {% include 'includes/v_sidebar.html' %}
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <div class="user-dashboard loader-holder">
+            <div class="user-holder">
+              
+               <h5 class="text-uppercase">Modify Item</h5>
+                <a class="btn btn-secondary" onclick="history.back()"><span class="text-light"><i class="fa fa-solid fa-arrow-left"></i> Back</span></a>
+              <hr>
+              
+              <form action="{% url 'edit_fooditem' food.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                {% include 'includes/toggler.html' %}
+                </div>
+              <div class="fom-field-set">
+               
+                <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12" style="display: none;">
+                    <br> <label>Veg</label><br>
+                    {{fooditem.is_veg}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12">
+                    <label>Food Title *</label>
+                    {{fooditem.food_title}}
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12">
+                    <label>Category *</label>
+                    {{fooditem.category}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-sm-12 col-lg-12 col-md-12">
+                    <label>Description</label>
+                    {{fooditem.description}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-sm-6 col-lg-6 col-md-12 w-100">
+                    <label>Item Image</label>
+                    {{fooditem.image}}
+                    <img src="{{food.image.url}}" width="100" height="100" class="mt-2" id="imagePreview">
+                    
+                  </div>
+                  <script>
+                    document.getElementById('id_image').addEventListener('change', function(event) {
+                      const [file] = event.target.files;
+                      const preview = document.getElementById('imagePreview');
+                      
+                      if (file) {
+                        preview.src = URL.createObjectURL(file);
+                        preview.style.display = 'block';
+                      } else {
+                        preview.src = '#';
+                        preview.style.display = 'none';
+                      }
+                    });
+                  </script>
+
+                  <div class="col col-sm-6 col-lg-6 col-md-12">
+                    <label>Price *</label>
+                    {{fooditem.price}}
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col col-sm-6 col-lg-6 col-md-12">
+                    <label>Quantity *</label>
+                    {{fooditem.on_hand_quantity}}
+                  </div>
+                </div>
+              </div>
+              <br><br>
+              <button type="submit" class="btn btn-primary"><i class="fa fa-solid fa-check"></i> Save</button>
+            </form>
+            {% for field in fooditem %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <label class="text-danger">{{error}}</label>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% comment %} </div> {% endcomment %}
+  <!-- Main Section End -->
+
+  {% endblock %}
+</div>
