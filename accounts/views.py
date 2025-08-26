@@ -12,6 +12,7 @@ from django.utils .http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
+from django.template.defaultfilters import slugify
 # Restrict Permissions of Vendor
 def check_role_vendor(user):
     if user.role == 1:
@@ -95,6 +96,8 @@ def registerVendor(request):
             user_profile = UserProfile.objects.get(user=user)
             vendor = vForm.save(commit=False)
             vendor.user = user
+            vendor_name = vForm.cleaned_data["vendor_name"]
+            vendor.vendor_slug = slugify(vendor_name)+"-"+str(user.id)
             vendor.user_profile = user_profile
             vendor.save()
             context_em = {
