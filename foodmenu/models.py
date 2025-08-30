@@ -29,7 +29,7 @@ class FoodItem(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     image = models.ImageField(upload_to="foodItems")
     is_available = models.BooleanField(default=True)
-    on_hand_quantity = models.IntegerField(default=1)
+    on_hand_quantity = models.PositiveIntegerField(default=0)
     description = models.TextField(max_length=250, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

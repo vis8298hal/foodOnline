@@ -151,10 +151,24 @@
                     <ul>
                       {% for food in category.foodItem.all %}
                       <li>
+                        {% if food.is_veg %}
+                        <div style="height:16px; width:16px; background-color: white; border:1px solid green; cursor: help;" class="float-left m-2 d-flex justify-content-center align-items-center"
+                        alt="Veg Item">
+                            <div style="height:10px; width: 10px; background-color: green; border-radius:50%;top:50%; left: 50%;">
+                            </div>
+                        </div>
+                        {% else %}
+                        <div style="width: 20px;height: 20px;border: 2px solid red;background-color: white; cursor: help;" class="float-left m-2 d-flex justify-content-center align-items-center">
+                          <div style="width: 0;height: 0;border-left: 10px solid transparent;border-right: 10px solid transparent;border-bottom: 20px solid red;">
+                          </div>
+                        </div>
+                        {% endif %}
                         <div class="image-holder">
                           <img
                               src="{{food.image.url}}"
                               alt=""
+                              height="70"
+                              width="70"
                           />
                         </div>
                         <div class="text-holder">
@@ -164,11 +178,20 @@
                           >
                         </div>
                         <div class="price-holder">
-                          <span class="price">£{{price}}</span>
-                          <a href="#" class="restaurant-add-menu-btn"
-                            ><i class="icon-plus4 text-color"></i
+                          <span class="price">${{food.price}}</span>
+                          <a href="#" 
+                          data-id="{{food.pk}}"
+                          data-url = "{% url 'decrease_cart' food.pk %}"
+                          class= "decrease_item"
+                            style="margin-right: 28px;"><i class="icon-minus text-color"></i
                           ></a>
-                          <span id="add-menu-loader-10"></span>
+                          <label id="qty_{{food.id}}" class="text-center">0</label>
+                          <a href="#" 
+                          data-id="{{food.pk}}"
+                          data-url = "{% url 'add_to_cart' food.pk %}"
+                            class="increase_item"><i class="icon-plus4 text-color"></i
+                          ></a>
+                          
                         </div>
                       </li>
                       {% endfor %}
@@ -178,6 +201,9 @@
                 </div>
               {% endfor %}
               </div>
+              {% for cart_item in cart_items %}
+              <span class="qty_item" data-id="qty_{{cart_item.food_item.id}}" data-qty="{{cart_item.quantity}}"></span>
+              {% endfor %}
             </div>
           </div>
         </div>

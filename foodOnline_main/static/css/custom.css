@@ -14,3 +14,10 @@ input.btn.btn-info {
     font-size: 12px;
     cursor: pointer;
 }
+
+.veg{
+    background-color: rgba(39, 198, 39, 0.489);
+}
+.non_veg{
+    background-color: rgba(198, 39, 39, 0.489);
+}

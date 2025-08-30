@@ -69,7 +69,14 @@
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="login-option">
-								
+								{% if user.is_authenticated %}
+								<a href="{% url 'cart' %}" class="m-2">
+									
+									<i class="fa fa-shopping-cart text-danger" style="font-size: 26px;"></i>
+									<sup><span class="badge badge-warning" id="cart_counter">{{cart_count}}</span></sup>
+									
+								</a>
+								{% endif %}
 								{% if user.is_authenticated %}
 									<a href="{% url 'marketplace' %}" class="btn btn-outline-danger text-uppercase font-weight-bold">MarketpLace</a>
 									<a class="cs-color cs-popup-joinus-btn login-popup"  href="{% url 'myAccount' %}">My Account </a>
