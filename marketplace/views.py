@@ -6,6 +6,7 @@ from django.db.models import Prefetch
 from .models import Cart
 from .context_processors import get_cart_counter, get_cart_amounts
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
@@ -184,3 +185,21 @@ def delete_cart(request, cart_id):
             "status": "login_required",
             "message": "Please Login to Continue",
         })
+    
+def search(request):
+    rest_name = request.GET["keyword"]
+    address = request.GET["address"]
+    lattitude = request.GET["lattitude"]
+    longitude = request.GET["longitude"]
+    radius = request.GET["radius"]
+    # Get Vendor Id which have the food Items User looking for
+    vendor_by_food = FoodItem.objects.filter(food_title__icontains=rest_name, is_available=True).values_list("vendor", flat=True)
+
+    vendors = Vendor.objects.filter(Q(id__in=vendor_by_food) | Q(vendor_name__icontains=rest_name, is_approved=True, user__is_active=True))
+    
+    vendor_count = vendors.count()
+    context = {
+        "vendors": vendors,
+        "vendor_count": vendor_count,
+    }
+    return render(request, "marketplace/listings.html", context=context)

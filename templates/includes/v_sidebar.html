@@ -32,12 +32,12 @@
         >
       </li>
       <li id="reset_password">
-        <a href="restaurant-change-password.html"
+        <a href="{% url 'forgot_password' %}"
           ><i class="icon-unlock-alt"></i>Change Password</a
         >
       </li>
       <li id="logout"> 
-        <a class="logout-btn" href="registration.html"
+        <a class="logout-btn" href="{% url 'logout' %}"
           ><i class="icon-log-out"></i>Signout</a
         >
       </li>

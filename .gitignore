@@ -82,7 +82,7 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-
+gdal-3.11.1-cp313-cp313-win_amd64.whl
 # Sphinx documentation
 docs/_build/
 
