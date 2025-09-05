@@ -59,8 +59,8 @@
 								<ul>
 									<li class="location-has-children choose-location">
 										<form action="#">
-											<input type="text" value="" name="location" placeholder="Enter your delivery location" autocomplete="off">
-											<span id="foodbakery_radius_location_open" class="foodbakery-radius-location"><i class="icon-target5"></i></span>
+											<input type="text" value="" name="location" placeholder="Enter your delivery location" autocomplete="off" id="cur_location">
+											<span id="foodbakery_radius_location_open" class="foodbakery-radius-location"><i class="icon-target5" onclick="getLocation()"></i></span>
 										</form>
 										
 									</li>
@@ -95,6 +95,49 @@
 				</div>
 			</div>
 		</header>
+		<script async>
+const x = document.getElementById("cur_location");
+var current_location = sessionStorage.getItem("current_location")
+if (current_location != ""){
+	x.value = current_location;
+}
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function success(position) {
+	var lat = position.coords.latitude
+	//var lat = "17.526461"
+	var long = position.coords.longitude
+	//var long = "78.300665"
+	
+	// send AJAX request to google API and get the address of the current location
+	var google_api_key = "{{GOOGLE_API_KEY}}";
+	var api_url = "https://maps.google.com/maps/api/geocode/json?latlng="+lat+","+long+"&key="+google_api_key;
+	console.log(api_url)
+	$.ajax({
+		url: api_url,
+		type: "GET",
+		success: function (response){
+			
+			var current_location = response.results[0].formatted_address;
+			console.log(location);
+			x.value = location;
+			sessionStorage.setItem("current_location" , current_location)
+			window.location = "?lat="+lat+"&lng="+long;
+		}
+	})
+}
+
+function error() {
+  alert("Sorry, no position available.");
+}
+</script>
+
 		<!-- Header End -->
 		<!-- Main Section Start -->
 	
