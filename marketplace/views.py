@@ -10,7 +10,8 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D 
 from django.contrib.gis.db.models.functions import Distance
-
+from vendor.models import OpeningHour
+from datetime import datetime
 
 # Create your views here.
 
@@ -24,7 +25,27 @@ def marketplace(request):
     return render(request, "marketplace/listings.html", context=context)
 
 def vendor_detail(request, vendor_slug):
+    def_time_format = "%H:%M:%S"
+    today = datetime.now()
+    current_time = today.strftime(def_time_format)
+
+    today = today.strftime("%u")
+    print(today)
     vendor_detail = get_object_or_404(Vendor, vendor_slug=vendor_slug)
+    opening_hours = OpeningHour.objects.filter(vendor=vendor_detail).order_by("day", "from_hour")
+    today_opening_hour = OpeningHour.objects.filter(vendor=vendor_detail, day=today)
+    is_open = None
+    
+    for hour in today_opening_hour:
+        start_time = str(datetime.strptime(hour.from_hour, "%I:%M %p").time())
+        end_time = str(datetime.strptime(hour.to_hour, "%I:%M %p").time())
+
+        if current_time > start_time and current_time < end_time:
+            is_open = True
+            break
+        else:
+            is_open = False
+    print(is_open)
     categories = Category.objects.filter(vendor=vendor_detail).prefetch_related(
         Prefetch("foodItem",
                  queryset = FoodItem.objects.filter(is_available=True))
@@ -38,6 +59,9 @@ def vendor_detail(request, vendor_slug):
         "vendor": vendor_detail,
         "categories": categories,
         "cart_items": cart_items,
+        "opening_hours": opening_hours,
+        "today_opening_hour": today_opening_hour,
+        "is_open": is_open,
     }
     return render(request, "marketplace/vendor_detail.html", context=context)
 

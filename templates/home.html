@@ -162,9 +162,15 @@
 											<a href="{% url 'vendor_detail' vendor.vendor_slug %}"><img src="{% static 'images/default-profile.png' %}" class="attachment-full size-full wp-post-image" alt=""></a>
 											{% endif %}
 										</figure>
-												<span class="restaurant-status close">
-													<em class="bookmarkRibbon"></em>Close
+										{% if vendor.is_open %}
+												<span class="restaurant-status open">
+													<em class="bookmarkRibbon"></em>Open
 												</span>
+										{% else %}
+										<span class="restaurant-status close">
+													<em class="bookmarkRibbon"></em>Closed
+												</span>
+										{% endif %}
 											</div>
 											<div class="text-holder">
 												<div class="list-rating">

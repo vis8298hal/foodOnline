@@ -16,9 +16,9 @@
           ><i class="icon-menu5" ></i>Menu Builder</a
         >
       </li>
-      <li id="shopping_cart">
-        <a href="restaurant-orders.html"
-          ><i class="icon-add_shopping_cart" ></i>Orders</a
+      <li id="opening_hours">
+        <a href="{% url 'opening_hours' %}"
+          ><i class="icon-add_shopping_cart" ></i>Opening Hours</a
         >
       </li>
       <li id="earnings">
@@ -53,6 +53,8 @@
   "path": "/vendor/profile"},
   {"id": "menu_builder",
   "path": "/vendor/menu-builder/"},
+  {"id": "opening_hours",
+  "path": "/vendor/opening_hours/"},
   ]
   current_path = "{{request.path}}";
   list_objects.forEach((list_obj)=>{

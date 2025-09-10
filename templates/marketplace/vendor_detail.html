@@ -22,7 +22,7 @@
                 </figure>
               </div>
               <div class="text-holder">
-                <span class="restaurant-title">{{vendor.vendor_name}}</span>
+                <span class="restaurant-title">{{vendor.vendor_name}} {% if not is_open %}[Closed]{% else %}[Open] {% endif %}</span>
                 <div class="text">
                   <i class="icon-local_pizza"></i>
                   <p>{{vendor.user_profile.full_address}}</p>
@@ -31,68 +31,33 @@
             </div>
             <div class="delivery-timing reviews-sortby">
               <ul>
+                
                 <li>
                   <a href="#" class="reviews-sortby-active">
+                    {% for hour in today_opening_hour %}
                     <span>Today :</span>
-                    11:00 am - 11:00 pm <i class="icon-chevron-small-down"></i>
+                    {% if hour.is_closed %}
+                    We are closed Today!
+                    {% else %}
+                    {{hour.from_hour}} - {{hour.to_hour}}<br>
+                    {% endif %}
+                    {% endfor %}
+                    <i class="icon-chevron-small-down"></i>
                   </a>
                   <ul class="delivery-dropdown">
+                    {% for opening_hour in opening_hours %}
                     <li>
-                      <a href="#"
-                        ><span class="opend-day">Monday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
+                      <a href="#"><span class="opend-day">{{opening_hour}}</span>
+                        <span class="opend-time close-day">
+                          {% if opening_hour.is_closed %}
+                          <small>Closed</small>
+                          {% else %}
+                          <small>{{opening_hour.from_hour}} - {{opening_hour.to_hour}}</small>
+                          {% endif %}
+                        </span></a
                       >
                     </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Tuesday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Wednesday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Thursday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Friday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Saturday</span>
-                        <span class="opend-time"
-                          ><small>:</small> 11:00 am - 11:00 pm</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="opend-day">Sunday</span>
-                        <span class="opend-time close-day"
-                          ><small>:</small>Closed</span
-                        ></a
-                      >
-                    </li>
+                    {% endfor %}
                   </ul>
                 </li>
               </ul>

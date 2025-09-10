@@ -26,11 +26,12 @@ def home(request):
         print(get_or_set_current_location(request))
         vendors  = Vendor.objects.filter( is_approved = True,  user_profile__location__distance_lte=(point, D(km=50))).annotate(distance=Distance("user_profile__location", point)).order_by("distance")
         for v in vendors:
+            print(v.is_open)
             v.kms = round(v.distance.km, 2)
         print("By location Enabled Vendor")
     else:
         vendors = Vendor.objects.filter(is_approved=True, user__is_active=True)[:8]
-        print("Default Vendor Page")
+        print([vendor.is_open for vendor in vendors])
     context = {
         "vendors": vendors
     }
