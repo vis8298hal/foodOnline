@@ -50,14 +50,15 @@ class Vendor(models.Model):
         today = today.strftime("%u")
         today_opening_hour = OpeningHour.objects.filter(vendor=self, day=today)
         for hour in today_opening_hour:
-            start_time = str(datetime.strptime(hour.from_hour, "%I:%M %p").time())
-            end_time = str(datetime.strptime(hour.to_hour, "%I:%M %p").time())
-            print(self.vendor_name,start_time, end_time, current_time)
-            if current_time > start_time and current_time < end_time:
-                is_open = True
-                break
-            else:
-                is_open = False
+            if not hour.is_closed:
+                start_time = str(datetime.strptime(hour.from_hour, "%I:%M %p").time())
+                end_time = str(datetime.strptime(hour.to_hour, "%I:%M %p").time())
+                print(self.vendor_name,start_time, end_time, current_time)
+                if current_time > start_time and current_time < end_time:
+                    is_open = True
+                    break
+                else:
+                    is_open = False
         return is_open
 DAYS = [
     (1, ("Monday")),

@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             timer: 1500
                             });
                             }
-                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["taxes"], grand_total=response.cart_amounts["grand_total"])
+                            console.log(response)
+                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["tax_dict"], grand_total=response.cart_amounts["grand_total"])
                         }
                 })
             });
@@ -164,7 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 remove_cart_item(cart_id, 0)
                                 
                             }
-                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["taxes"], grand_total=response.cart_amounts["grand_total"])
+                            console.log(response)
+                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["tax_dict"], grand_total=response.cart_amounts["grand_total"])
                         }
                 })
             });
@@ -209,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             timer: 1500
                             });
                             remove_cart_item(cart_id, 0);
-                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["taxes"], grand_total=response.cart_amounts["grand_total"])
+                            update_cart_amounts(subtotal=response.cart_amounts["subtotal"], taxes=response.cart_amounts["tax_dict"], grand_total=response.cart_amounts["grand_total"])
                             }
                         }
                     })
@@ -238,10 +240,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function update_cart_amounts(subtotal , taxes, grand_total){
     if(window.location.pathname == "/cart/"){
     var subtotal_el = document.getElementById("subtotal");
-    var tax_el = document.getElementById("tax");
+    //var tax_el = document.getElementById("tax");
+    for(key1 in taxes){
+        console.log(key1)
+        
+        for(key2 in taxes[key1]){
+            var tax_el = document.getElementById("tax-"+key1);
+            tax_el.innerText = taxes[key1][key2]
+        }
+    }
     var total_el = document.getElementById("total");
     subtotal_el.innerText = subtotal;
-    tax_el.innerText = taxes
+    
     total_el.innerText = grand_total;
     
 
